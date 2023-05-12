@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TODO App</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <!-- bootstrap link -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/7be81cecf1.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- body container -->
+  <div class="container">
+    <!-- heading -->
+    <div class="card ">
+      <div class="card-body">
+        <div class="card bg-info text-white">
+          <div class="card-body">
+            <h5 class="card-title text-center">TODO APP</h5>
+
+      <!--     create-task -->
+            <form action="/create-task" method="post">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="description-box">
+                    <label for="description" id="description-heading">
+                      <b>DESCRIPTION</b>
+                    </label>
+                    <input type="text" id="description" name="description" class="form-control"
+                      placeholder="What you want to do?" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <div><label> <b>CATEGORY</b> </label></div>
+                  <div>
+
+                    <select class="form-select" name="category" id="select-list">
+                      <option value="none">Choose a category</option>
+                      <option value="Work" id="work">Work</option>
+                      <option value="Personal">Personal</option>
+                      <option value="Home">Home</option>
+                      <option value="Meeting">Meeting</option>
+                      <option value="Others">Others</option>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6" class="form-control">
+                  <div><label> <b>Due-Date</b> </label></div>
+                  <div id="due-date">
+
+                    <div><input class="form-control" type="date" name="dueDate" placeholder="dd/mm/yyyy"></div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- buttons -->
+              <div class="text-center">
+                <button type="submit" class="btn btn-success m-4 btn-lg" id="submit-button"><i
+                    class="fas fa-plus"></i>Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Delete task -->
+
+
+
+        <div class="delet-buttons">
+          <form method="POST" action="/delete-task">
+
+            <!-- Add this code inside the <form> tag -->
+            <% for(let i=0; i<task_list.length; i++) { %>
+              <div class="card-body  bg-gray m-3 rounded">
+                <div>
+                  <div class="card-text">
+                    <div class="row ">
+                      <div class="col-md-1"><input type="checkbox" name="selectedTasks[]"
+                          value="<%= task_list[i]._id %>"></div>
+                      <div class="col-md-6">
+                        <div id="task-description">
+                          <span>
+                            <%= task_list[i].description %>
+                          </span>
+                        </div>
+                        <div id="task-due-date">
+                          <small>
+                            <i class="fas fa-calendar-alt"></i>
+                            <% if (task_list[i].due_date) { %>
+                              <%= task_list[i].due_date.toLocaleDateString('en-GB') %>
+                                <% } %>
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-3 btn btn-secondary me-md-2 btn-lg">
+                        <div id="task-category">
+                          <small>
+                            <%= task_list[i].category %>
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+
+                <!-- Add this code after the task_list foreach loop -->
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Delete Selected</button>
+                </div>
+          </form>
+        </div>
+
+        <!-- // Add this code to the bottom of the home.ejs file, just before the closing </body> tag -->
+        <script>
+          const deleteSelectedForm = document.querySelector('#deleteSelectedForm');
+
+          document.querySelector('#deleteSelectedButton').addEventListener('click', function (event) {
+            event.preventDefault();
+            deleteSelectedForm.submit();
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
